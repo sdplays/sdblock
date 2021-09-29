@@ -1,0 +1,71 @@
+
+
+{% extends 'base.html' %}
+{% block title %}
+Market Page
+{% endblock %}
+{% block content %}
+
+<div class="row" style="margin-top:10px; margin-left:10px">
+   <div class="col-8">
+      <h2>Avaible items on the Market</h2>
+      <p>Click on one of items to start buying</p>
+      <br>
+      <table class="table table-hover table-dark" style="border-radius: 5px;background: rgb(2,0,36);
+background: linear-gradient(180deg, rgba(2,0,36,0.40379901960784315) 0%, rgba(90,90,168,1) 0%, rgba(128,194,207,1) 100%);">
+         <thead>
+            <tr>
+               <!-- Your Columns HERE -->
+               <th scope="col">ID</th>
+               <th scope="col">Name</th>
+               <th scope="col">Barcode</th>
+               <th scope="col">Price</th>
+               <th scope="col">option</th>
+            </tr>
+         </thead>
+         <tbody>
+            <!-- Your rows inside the table HERE: -->
+            {% for item in items %}
+            {%include 'includes/items_models.html'%}
+            <tr>
+               <td>{{ item.id }}</td>
+               <td>{{ item.name}}</td>
+               <td>{{ item.barcode }}</td>
+               <td>{{ item.price }}$</td>
+               <td>
+                  <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">more info</button>
+                  <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-Purchase-Confirm-{{ item.id }}">
+                      purchase this item
+		  </button>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   <div class="col-4">
+      <h2>Owned Items </h2>
+      <p>Click on sell item to put back an item on the Market</p>
+      <br>
+      <div class="row">
+        {% for owned_item in owned_items %}
+	{% include 'includes/old_items_models.html' %}
+	  <div class="col-md-6">
+            <div  class="card text-center" style="margin: 2px;background: rgb(2,0,36);background: linear-gradient(180deg, rgba(2,0,36,0.40379901960784315) 0%, rgba(90,90,168,1) 0%, rgba(128,194,207,1) 100%)">
+              <div class="card-body">
+                <h5 class="card-title">{{ owned_item.name }}</h5>
+                <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px"
+                      data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_item.id }}">
+                   <strong>Sell this Item</strong>
+                </button>
+                <p class="card-text" style="font-weight: bold"><strong>{{ owned_item.description }}, this item cost: {{owned_item.price}}$</strong></p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+   </div>
+</div>
+
+{% endblock %}
+
